@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Webpage</title>
+    <style>
+
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        #cube-container {
+          perspective: 2000px;
+        }
+        #cube {
+       width: 1000px;
+        height: 1000px;    position: relative;
+          transform-style: preserve-3d;
+          animation: rotate 8s infinite linear;
+        }
+        .face {
+           position: absolute;
+         width: 1000px;
+         height: 1000px;
+          font-size: 40px;
+          backface-visibility: hidden;
+          transform: translateZ(250px);
+          background-color: rgba(255, 255, 255, 0.8);
+          border: 5px solid #ccc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+           backface-visibility: hidden;
+        transform: translateZ(100px); /
+        }
+
+      .front  { transform: translateZ(500px); }
+      .back   { transform: translateZ(-500px) rotateY(180deg); }
+      .right  { transform: rotateY(-90deg) translateZ(500px); }
+      .left   { transform: rotateY(90deg) translateZ(500px); }
+      .top    { transform: rotateX(90deg) translateZ(500px); }
+      .bottom { transform: rotateX(-90deg) translateZ(500px);}
+    </style>
+  </head>
+  <body>
+    <div id="cube-container">
+      <div id="cube">
+        <div class="face front">Front</div>
+        <div class="face back">Back</div>
+        <div class="face right">Left</div>
+        <div class="face left">Right</div>
+        <div class="face top">Top</div>
+        <div class="face bottom">Bottom</div>
+      </div>
+    </div>
+    <div></div>
+  </body>
+  <script>
+    const keyframes = [
+      { transform: "rotateY(0)" },
+      { transform: "rotateY(360deg)" },
+    ];
+
+    const options = {
+      duration: 8000, // Animation duration in milliseconds
+      iterations: 1, // Repeat indefinitely
+      easing: "linear", // Linear animation
+    };
+
+    const cube = document.getElementById("cube");
+
+    //cube.style.transform = keyframes[1].transform;
+
+    let animation = cube.animate(keyframes, options);
+
+    cube.addEventListener("click", () => {
+      if (animation.playState === "running") {
+        animation.pause();
+      } else {
+        animation.play();
+      }
+    });
+
+    const cubeContainer = document.getElementById("cube-container");
+
+    let scale = 1; // Initial scale value
+    const scaleStep = 0.1; // Amount to change scale by
+    const minScale = 0.1;
+
+    function handleScroll(event) {
+      const delta = event.deltaY || event.detail || event.wheelDelta;
+
+      if (delta > 0) {
+        scale -= scaleStep;
+        if (scale < minScale) {
+          scale = minScale;
+        }
+      } else {
+        scale += scaleStep;
+      }
+
+      updateCubeScale();
+      cubeContainer.style.perspective = "10000px";
+      event.preventDefault();
+    }
+
+    function updateCubeScale() {
+      cubeContainer.style.transform = `scale(${scale})`;
+    }
+
+    cubeContainer.addEventListener("wheel", handleScroll, { passive: false });
+  </script>
+</html>
