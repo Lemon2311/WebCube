@@ -1,6 +1,6 @@
 # WebCube
 
-A template that enables you to create a 3D cube showcasing your website's pages on its sides.<br><br>
+A template that enables you to create a 3D cube showcasing the website's pages on its sides.<br><br>
 
 # Active Implementation
 
